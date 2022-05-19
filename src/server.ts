@@ -12,7 +12,7 @@ import VideoRoutes from './routes/video.route';
 
 dotenv.config();
 
-const { PORT, MONGO_URI } = process.env;
+const { PORT } = process.env;
 
 class App {
   public app: Application;
@@ -70,8 +70,6 @@ class App {
    * Connect mongoDB database
    */
   private connectDB() {
-    console.log(MONGO_URI);
-
     mongoose.connect('mongodb://localhost:27017/test');
     const database = mongoose.connection;
     database.once('connected', () => {
