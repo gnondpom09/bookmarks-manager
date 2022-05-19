@@ -33,7 +33,10 @@ export default class VideoController {
     const link: string = req.body?.url || '';
     const data: any = await this.utilsService.getOembed(link);
 
-    if (!data) res.status(404).send({ error: 'Error datas link!' });
+    if (!data)
+      res
+        .status(404)
+        .send({ error: 'Error to extract data from external link!' });
 
     try {
       const linkVideo: Video = {
@@ -62,8 +65,8 @@ export default class VideoController {
    */
   public async getVideos(req: Request, res: Response) {
     try {
-      const bookmarks = await this.videoService.getVideos();
-      res.status(200).json(bookmarks);
+      const bookmarks: Video[] = await this.videoService.getVideos();
+      res.status(200).send(bookmarks);
     } catch {
       res.status(404).send({ error: "bookmarks doesn't exist!" });
     }
@@ -78,10 +81,12 @@ export default class VideoController {
     try {
       if (req.params) {
         const { id } = req.params;
-        const bookmark = await this.videoService.getVideoByParams(id);
+        const bookmark: Video | null = await this.videoService.getVideoByParams(
+          id
+        );
         res
           .status(200)
-          .json({ data: bookmark, message: 'Get request successfull' });
+          .send({ data: bookmark, message: 'Get request successfull' });
       } else {
         res.status(400).send({ error: true, message: 'Missing params' });
       }
@@ -98,12 +103,12 @@ export default class VideoController {
   public async updateVideo(req: Request, res: Response) {
     try {
       if (req.body) {
-        const newBookmark = req.body;
-        const bookmark = await this.videoService.updateVideo(newBookmark);
-
+        const bookmark: Video | null = await this.videoService.updateVideo(
+          req.body
+        );
         res.send(bookmark);
       } else {
-        res.status(400).send({ error: true, message: 'Missing params' });
+        res.status(400).send({ error: true, message: 'Missing body' });
       }
     } catch {
       res.status(404).send({ error: 'bookmark not updated!' });
@@ -119,7 +124,7 @@ export default class VideoController {
     try {
       if (req.params) {
         await this.videoService.deleteVideo(req.params.id);
-        res.status(204).send();
+        res.status(204).send({ message: 'video deleted' });
       } else {
         res.status(400).send({ error: true, message: 'Missing params' });
       }

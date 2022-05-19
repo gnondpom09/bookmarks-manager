@@ -8,6 +8,10 @@ export default class TestRoutes {
 
   private photoController: PhotoController = new PhotoController();
 
+  /**
+   * Routes management to test external links data
+   * @param app application
+   */
   public route(app: Application) {
     /**
      * Test route to get data from external link photo

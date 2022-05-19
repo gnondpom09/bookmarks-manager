@@ -18,7 +18,7 @@ export default class PhotoController {
    * @param res response
    */
   public async getLinkData(req: Request, res: Response) {
-    const data = await this.utilsService.getOembed(
+    const data: any = await this.utilsService.getOembed(
       'https://www.flickr.com/photos/feuilllu/45771361701/'
     );
     res.status(200).send(data);
@@ -33,7 +33,10 @@ export default class PhotoController {
     const link: string = req.body?.url || '';
     const data: any = await this.utilsService.getOembed(link);
 
-    if (!data) res.status(404).send({ error: 'Error datas link!' });
+    if (!data)
+      res
+        .status(404)
+        .send({ error: 'Error to extract data from external link!' });
 
     try {
       const linkPhoto: Photo = {
@@ -61,8 +64,8 @@ export default class PhotoController {
    */
   public async getPhotos(req: Request, res: Response) {
     try {
-      const bookmarks = await this.photoService.getPhotos();
-      res.status(200).json(bookmarks);
+      const bookmarks: Photo[] = await this.photoService.getPhotos();
+      res.status(200).send(bookmarks);
     } catch {
       res.status(404).send({ error: "bookmarks doesn't exist!" });
     }
@@ -77,10 +80,12 @@ export default class PhotoController {
     try {
       if (req.params) {
         const { id } = req.params;
-        const bookmark = await this.photoService.getPhotoByParams(id);
+        const bookmark: Photo | null = await this.photoService.getPhotoByParams(
+          id
+        );
         res
           .status(200)
-          .json({ data: bookmark, message: 'Get request successfull' });
+          .send({ data: bookmark, message: 'Get request successfull' });
       } else {
         res.status(400).send({ error: true, message: 'Missing params' });
       }
@@ -97,12 +102,12 @@ export default class PhotoController {
   public async updatePhoto(req: Request, res: Response) {
     try {
       if (req.body) {
-        const newBookmark = req.body;
-        const bookmark = await this.photoService.updatePhoto(newBookmark);
-
-        res.send(bookmark);
+        const newBookmark: Photo | null = await this.photoService.updatePhoto(
+          req.body
+        );
+        res.send(newBookmark);
       } else {
-        res.status(400).send({ error: true, message: 'Missing params' });
+        res.status(400).send({ error: true, message: 'Missing body' });
       }
     } catch {
       res.status(404).send({ error: 'bookmark not updated!' });

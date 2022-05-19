@@ -33,6 +33,9 @@ class App {
     this.connectDB();
   }
 
+  /**
+   * Set configuration of api
+   */
   private setConfig() {
     const allowedOrigins = ['http://localhost:3000'];
 
@@ -44,6 +47,9 @@ class App {
     this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   }
 
+  /**
+   * Get routes of api
+   */
   private getRoutes() {
     this.testRoutes.route(this.app);
     this.photoRoutes.route(this.app);
@@ -51,12 +57,18 @@ class App {
     this.commonRoutes.route(this.app);
   }
 
+  /**
+   * Run application
+   */
   private runServer() {
     this.app.listen(PORT, () => {
       console.log(`Listening on port ${PORT}`);
     });
   }
 
+  /**
+   * Connect mongoDB database
+   */
   private connectDB() {
     console.log(MONGO_URI);
 
