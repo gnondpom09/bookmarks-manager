@@ -40,7 +40,7 @@ Api for manage bookmarks. Add new bookmark type photo or video saved on mongoDB 
     >
     > key : url
     >
-    > value : https://www.flickr.com/photos/feuilllu/45771361701/
+    > value : https://vimeo.com/565486457
   - Get list of videos
     > request : GET
   - Get one video
