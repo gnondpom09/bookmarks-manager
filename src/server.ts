@@ -37,14 +37,14 @@ class App {
    * Set configuration of api
    */
   private setConfig() {
-    const allowedOrigins = ['http://localhost:3000'];
-
     const options: cors.CorsOptions = {
-      origin: allowedOrigins,
+      origin: '*',
+      credentials: true, // access-control-allow-credentials:true
+      optionsSuccessStatus: 200,
     };
     this.app.use(cors(options));
     this.app.use(bodyParser.json({ limit: '50mb' }));
-    this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+    this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
   }
 
   /**

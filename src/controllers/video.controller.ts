@@ -84,9 +84,7 @@ export default class VideoController {
         const bookmark: Video | null = await this.videoService.getVideoByParams(
           id
         );
-        res
-          .status(200)
-          .send({ data: bookmark, message: 'Get request successfull' });
+        res.status(200).send(bookmark);
       } else {
         res.status(400).send({ error: true, message: 'Missing params' });
       }
@@ -106,7 +104,7 @@ export default class VideoController {
         const bookmark: Video | null = await this.videoService.updateVideo(
           req.body
         );
-        res.send(bookmark);
+        res.status(200).send({ data: bookmark, message: 'update successfull' });
       } else {
         res.status(400).send({ error: true, message: 'Missing body' });
       }

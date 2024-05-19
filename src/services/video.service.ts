@@ -35,7 +35,10 @@ export default class VideoService {
    */
   updateVideo(bookmark: Video) {
     const query = { _id: bookmark._id };
-    return VideoModel.findOneAndUpdate(query, bookmark);
+    return VideoModel.findByIdAndUpdate(query, bookmark, {
+      new: true,
+    });
+    // return VideoModel.findOneAndUpdate(query, bookmark);
   }
 
   /**

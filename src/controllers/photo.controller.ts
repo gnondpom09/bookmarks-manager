@@ -62,12 +62,14 @@ export default class PhotoController {
    * @param req request
    * @param res response
    */
-  public async getPhotos(req: Request, res: Response) {
+  public async getPhotos(req: Request, res: Response): Promise<Photo[]> {
     try {
       const bookmarks: Photo[] = await this.photoService.getPhotos();
       res.status(200).send(bookmarks);
+      return bookmarks;
     } catch {
       res.status(404).send({ error: "bookmarks doesn't exist!" });
+      return [];
     }
   }
 
