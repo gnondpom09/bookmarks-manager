@@ -104,7 +104,7 @@ export default class VideoController {
         const bookmark: Video | null = await this.videoService.updateVideo(
           req.body
         );
-        res.status(200).send({ data: bookmark, message: 'update successfull' });
+        res.status(200).send(bookmark);
       } else {
         res.status(400).send({ error: true, message: 'Missing body' });
       }
