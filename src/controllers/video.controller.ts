@@ -50,6 +50,8 @@ export default class VideoController {
         width: data.width,
         height: data.height,
         duration: data.duration,
+        source: data.html,
+        description: data.description,
       };
       const bookmark: Video = await this.videoService.saveVideo(linkVideo);
       res.status(201).send({ bookmark });

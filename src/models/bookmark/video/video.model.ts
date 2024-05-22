@@ -9,6 +9,8 @@ const videoSchema = new Schema({
   width: Number,
   height: Number,
   duration: Number,
+  source: String,
+  description: String,
 });
 
 const VideoModel = mongoose.model<Video>('LinkVideo', videoSchema);
