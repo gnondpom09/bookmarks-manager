@@ -12,6 +12,11 @@ export default class VideoController {
 
   private utilsService: UtilsService = new UtilsService();
 
+  private getUrl(html: string): string {
+    const parts = html.split('"');
+    return parts[1];
+  }
+
   /**
    * Test get data from external link for video
    * @param req request
@@ -50,7 +55,7 @@ export default class VideoController {
         width: data.width,
         height: data.height,
         duration: data.duration,
-        source: data.html,
+        source: this.getUrl(data.html),
         description: data.description,
       };
       const bookmark: Video = await this.videoService.saveVideo(linkVideo);
