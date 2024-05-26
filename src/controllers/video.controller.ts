@@ -13,8 +13,11 @@ export default class VideoController {
   private utilsService: UtilsService = new UtilsService();
 
   private getUrl(html: string): string {
-    const parts = html.split('"');
-    return parts[1];
+    const parts = html.split(' ');
+    const src = parts.find((item) => item.substring(0, 3) === 'src');
+    const url = src?.substring(5, src.length - 1);
+
+    return String(url);
   }
 
   /**
@@ -37,6 +40,7 @@ export default class VideoController {
   public async addBookmarkVideo(req: Request, res: Response) {
     const link: string = req.body?.url || '';
     const data: any = await this.utilsService.getOembed(link);
+    console.log(data);
 
     if (!data)
       res
@@ -59,7 +63,9 @@ export default class VideoController {
         description: data.description,
       };
       const bookmark: Video = await this.videoService.saveVideo(linkVideo);
-      res.status(201).send({ bookmark });
+      if (bookmark) {
+        res.status(201).send({ bookmark });
+      }
     } catch {
       res.status(404).send({ error: 'bookmark not saved!' });
     }
